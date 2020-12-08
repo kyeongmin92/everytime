@@ -12,7 +12,6 @@
 	rel="stylesheet">
 <link type="text/css" href="../resources/css/container.community.css"
 	rel="stylesheet">
-<link href="#" rel="shortcut icon">
 <link rel="stylesheet" type="text/css"
 	href="../resources/css/assets/style.css">
 <script type="text/javascript" src="../js/analytics.js"></script>

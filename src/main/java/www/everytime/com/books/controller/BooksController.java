@@ -52,21 +52,14 @@ public class BooksController {
 
 	@RequestMapping("/bookSell")
 	public String bookSell() {
-		
 		return "/books/bookSell";
-	}
-	
-	@RequestMapping("/bookListInsert")
-	public String bookListInsert(Book book, Model model,HttpSession session) {
-		// API 데이터 넣어주기
-		bs.insert(book);
-		session.getAttribute("listnum");
-		return "redirect:/books/bookSellForm";
 	}
 
 	@RequestMapping("/bookSellForm")
-	public String bookSellForm(Book book, Model model, HttpSession session) {		
-		session.setAttribute("listnum", book.getListnum());
+	public String bookSellForm(Book book, Model model, HttpSession session) {
+		// API 데이터 넣어주기
+		bs.insert(book);		
+		
 		// 멤버 닉네임 받아오기
 		String id = (String) session.getAttribute("id");
 		Member member = ms.select(id);
@@ -130,7 +123,7 @@ public class BooksController {
 		
 		model.addAttribute("booksell", booksell);		
 		model.addAttribute("result", result);
-		return "redirect:/books/bookSell";
+		return "/books/imageNameUpdate";
 	}
 		
 	}

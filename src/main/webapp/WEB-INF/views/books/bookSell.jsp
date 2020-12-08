@@ -50,7 +50,7 @@
 												for (let i = 0; i < data.documents.length; i++) {
 													array[i] = data.documents[i];
 													$("#book")
-													.append("<form action='bookListInsert'>"
+													.append("<form action='bookSellForm'>"
 																	+ "ISBN : <input readonly id='isbn' name='isbn' value='"+array[i].isbn+ "'/><br/>"
 																	+ "책 제목 : <input readonly id='title' name='title' value='"+array[i].title+"'/><br/>"
 																	+ "저자 : <input readonly id='authors' name='authors' value='"+array[i].authors+"'/><br/>"
@@ -66,7 +66,7 @@
 													
 													$('#book').empty();
 													$("#book")
-													.append("<form action='bookListInsert'>"
+													.append("<form action='bookSellForm'>"
 																	+ "ISBN : <input readonly id='isbn' name='isbn' value='"+array[i].isbn+ "'/><br/>"
 																	+ "책 제목 : <input readonly id='title' name='title' value='"+array[i].title+"'/><br/>"
 																	+ "저자 : <input readonly id='authors' name='authors' value='"+array[i].authors+"'/><br/>"
