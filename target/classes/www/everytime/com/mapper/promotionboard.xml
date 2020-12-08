@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="promotionboardns">
+	<resultMap type="promotionboard" id="promotionboardResult">
+		<result property="pbno" column="pbno" />
+		<result property="pnickname" column="pnickname" />
+		<result property="ptitle" column="ptitle" />
+		<result property="pcontents" column="pcontents" />
+		<result property="pregdate" column="pregdate" />		
+		<result property="pdel" column="pdel" />
+	</resultMap>
+	<resultMap type="promotionboardrec" id="promotionboardrecResult">
+		<result property="pbrno" column="pbrno" />
+		<result property="prbno" column="prbno" />
+		<result property="precid" column="precid" />
+	</resultMap>
+	<resultMap type="promotionboardreadcount" id="promotionboardreadcount">
+		<result property="pbrcno" column="pbrcno" />
+		<result property="prbno" column="prbno" />
+		<result property="prcid" column="prcid" />
+	</resultMap>
+
+<select id="promotionBoardList" parameterType="promotionboard"
+		resultType="promotionboard">
+		select promotionboard.*,
+		(select count(prrno) from promotionreply where prbno=pbno and prdel=false) as
+		pcommentCount,
+		(select count(pbrno) from promotionboardrec where prbno=pbno) 
+		as precommendation,
+		(select count(pbrcno) from promotionboardreadcount where prbno=pbno)
+		as preadcount
+		from promotionboard 
+		<where>
+			pdel = false
+			<if test="keyword!=null and keyword!=''">
+				<if test="search=='all'">
+					and pnickname like concat('%',#{keyword},'%') or
+					ptitle
+					like concat('%',#{keyword},'%') or
+					pcontents like
+					concat('%',#{keyword},'%')
+
+				</if>
+				<if test="search!='all'">
+					and ${search} like concat('%',#{keyword},'%')
+				</if>
+			</if>
+		</where>
+		order by pbno desc limit ${startRow}, ${endRow}
+	</select>
+
+	<select id="select" resultType="promotionboard">
+		select *,(select count(prrno)
+		from promotionreply where prbno=#{pbno} and
+		prdel=false) as commentCount,
+		(select count(pbrno) from promotionboardrec where prbno=pbno) 
+		as precommendation,
+		(select count(pbrcno) from promotionboardreadcount where prbno=pbno)
+		as preadcount
+		from promotionboard
+		where pbno=#{pbno}
+	</select>
+
+	<insert id="pbinsert" parameterType="promotionboard">
+		insert into promotionboard
+		(pnickname, ptitle, pcontents) values(#{pnickname},
+		#{ptitle},
+		#{pcontents})
+	</insert>
+
+	<select id="getTotal" parameterType="promotionboard"
+		resultType="integer">
+		select count(*) from promotionboard
+		<where>
+			<if test="keyword!=null and keyword!=''">
+				<if test="search=='all'">
+					pnickname like concat('%',#{keyword},'%') or
+					ptitle like
+					concat('%',#{keyword},'%') or
+					pcontents like
+					concat('%',#{keyword},'%')
+				</if>
+				<if test="search!='all'">
+					${search} like concat('%',#{keyword},'%')
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<update id="update" parameterType="promotionboard">
+		update preeboard set
+		ptitle=#{ptitle},
+		pcontents=#{pcontents}, pregdate=current_timestamp
+		where pbno=#{pbno}
+	</update>
+
+	<update id="delete" parameterType="integer">
+		update promotionboard set pdel=true
+		where pbno=#{pbno}
+	</update>
+
+	<insert id="recInsert" parameterType="promotionboardrec">
+		insert into
+		promotionboardrec(prbno,precid) values(#{prbno},#{precid} )
+	</insert>
+	
+	<delete id="recDelete" parameterType="promotionboardrec">
+		delete from promotionboardrec where prbno=#{prbno} and precid=#{precid}
+	</delete>
+	
+	<select id="recSelect" parameterType="promotionboardrec" resultType="promotionboardrec">
+		select * from promotionboardrec where prbno=#{prbno} and precid=#{precid}
+	</select>
+	
+	<insert id="readCountInsert" parameterType="promotionboardreadcount">
+		insert into promotionboardreadcount(prbno,prcid) values (#{prbno} ,#{prcid})
+	</insert>
+	<select  id="readCountSelect" parameterType="promotionboardreadcount" resultType="promotionboardreadcount">
+		select * from promotionboardreadcount where prbno=#{prbno} and prcid=#{prcid}
+	</select>	
+	
+</mapper>	

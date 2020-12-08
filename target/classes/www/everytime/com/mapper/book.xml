@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookns">
+	<insert id="insert" parameterType="book">
+		insert into booklist (isbn,
+		title, authors, publisher, price, translators,
+		publishdate, thumbnail)
+		values (#{isbn}, #{title}, #{authors}, #{publisher}, #{price},
+		#{translators}, #{publishdate}, #{thumbnail})
+	</insert>
+
+	<select id="selectList" parameterType="book" resultType="book">		
+		select * from (select * from booklist  order by isbn=#{isbn} desc limit 1) as a order by isbn=#{isbn} asc
+	</select>
+
+	<insert id="listinsert" parameterType="booksell">
+		insert into booksell (
+		listnum, contents, underline, writing, cover, nameentry,
+		pagecolor, pagestate,
+		imgfile1, imgfile2, imgfile3, sellprice, delivery, directdeal,
+		location
+		)
+		values (#{listnum}, #{contents}, #{underline}, #{writing}, #{cover},
+		#{nameentry},
+		#{pagecolor}, #{pagestate}, #{imgfile1}, #{imgfile2},
+		#{imgfile3}, #{sellprice}, #{delivery},
+		#{directdeal}, #{location})
+	</insert>
+	
+	<select id="select" parameterType="booksell" resultType="booksell">
+		select * from booksell where listnum = #{listnum}
+	</select>
+	
+	<update id="imagesupdate" parameterType="booksell">
+		update booksell set imgfile1=#{imgfile1}, imgfile2=#{imgfile2}, imgfile3=#{imgfile3} where listnum=#{listnum}
+	</update>
+</mapper>

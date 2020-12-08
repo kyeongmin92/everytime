@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="promotionreplyns">
+<resultMap type="promotionreply" id="promotionreplyResult">
+	<result property="prrno" column="prrno"/>
+	<result property="prbno" column="prbno"/>
+	<result property="prnickname" column="prnickname"/>
+	<result property="prcontents" column="prcontents"/>
+	<result property="prregdate" column="prregdate"/>
+	<result property="prdel" column="prdel"/>
+</resultMap>
+<resultMap type="promotionreplyrec" id="promotionreplyrec">
+	<result property="prrcno" column="prrcno" />
+	<result property="prrpno" column="prrpno" />
+	<result property="prrcid" column="prrcid"/>
+</resultMap>
+
+<select id="list" parameterType="promotionreply" resultType="promotionreply">
+	select *,(select count(prrcno) from promotionreplyrec where prrpno = prrno) as prrecommendation 
+	from promotionreply where prbno=#{prbno} and prdel=false order by prrno
+</select>
+
+<insert id="insert" parameterType="promotionreply">
+	insert into promotionreply ( prbno, prnickname, prcontents ) values (#{prbno}, #{prnickname}, #{prcontents})
+</insert>
+
+<update id="delete" parameterType="integer">
+	update promotionreply set prdel=true where prrno=#{prrno} 
+</update>
+
+<select id="rRecSelect" parameterType="promotionreplyrec" resultType="promotionreplyrec">
+	select * from promotionreplyrec where prrpno=#{prrpno} and prrcid=#{prrcid}
+</select>
+
+<insert id="rRecInsert" parameterType="promotionreplyrec">
+	insert into promotionreplyrec(prrpno,prrcid) values(#{prrpno},#{prrcid})
+</insert>
+
+<delete id= "rRecDelete" parameterType="promotionreplyrec">
+	delete from promotionreplyrec where prrpno=#{prrpno} and prrcid=#{prrcid}
+</delete>
+
+
+</mapper>

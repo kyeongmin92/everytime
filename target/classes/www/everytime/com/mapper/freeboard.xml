@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="freeboardns">
+	<resultMap type="freeboard" id="freeboardResult">
+		<result property="fbno" column="fbno" />
+		<result property="fnickname" column="fnickname" />
+		<result property="ftitle" column="ftitle" />
+		<result property="fcontents" column="fcontents" />
+		<result property="fregdate" column="fregdate" />		
+		<result property="fdel" column="fdel" />
+	</resultMap>
+	<resultMap type="freeboardrec" id="freeboardrecResult">
+		<result property="fbrno" column="fbrno" />
+		<result property="frbno" column="frbno" />
+		<result property="frecid" column="frecid" />
+	</resultMap>
+	<resultMap type="freeboardreadcount" id="freeboardreadcount">
+		<result property="fbrcno" column="fbrcno" />
+		<result property="frbno" column="frbno" />
+		<result property="frcid" column="frcid" />
+	</resultMap>
+
+	<select id="freeBoardList" parameterType="freeboard"
+		resultType="freeboard">
+		select freeboard.*,
+		(select count(frrno) from freereply where frbno=fbno and frdel=false) as
+		fcommentCount,
+		(select count(fbrno) from freeboardrec where frbno=fbno) 
+		as frecommendation,
+		(select count(fbrcno) from freeboardreadcount where frbno=fbno)
+		as freadcount
+		from freeboard 
+		<where>
+			fdel = false
+			<if test="keyword!=null and keyword!=''">
+				<if test="search=='all'">
+					and fnickname like concat('%',#{keyword},'%') or
+					ftitle
+					like concat('%',#{keyword},'%') or
+					fcontents like
+					concat('%',#{keyword},'%')
+
+				</if>
+				<if test="search!='all'">
+					and ${search} like concat('%',#{keyword},'%')
+				</if>
+			</if>
+		</where>
+		order by fbno desc limit ${startRow}, ${endRow}
+	</select>
+
+	<select id="select" resultType="freeboard">
+		select *,(select count(frrno)
+		from freereply where frbno=#{fbno} and
+		frdel=false) as commentCount,
+		(select count(fbrno) from freeboardrec where frbno=fbno) 
+		as frecommendation,
+		(select count(fbrcno) from freeboardreadcount where frbno=fbno)
+		as freadcount
+		from freeboard
+		where fbno=#{fbno}
+	</select>
+
+	<insert id="insert" parameterType="freeboard">
+		insert into freeboard
+		(fnickname, ftitle, fcontents) values(#{fnickname},
+		#{ftitle},
+		#{fcontents})
+	</insert>
+
+	<!-- <update id="updateReadCount">
+		update freeboard set freadcount = freadcount +1 where
+		fbno=#{fbno}
+	</update>
+ -->
+	<select id="getTotal" parameterType="freeboard"
+		resultType="integer">
+		select count(*) from freeboard
+		<where>
+			<if test="keyword!=null and keyword!=''">
+				<if test="search=='all'">
+					fnickname like concat('%',#{keyword},'%') or
+					ftitle like
+					concat('%',#{keyword},'%') or
+					fcontents like
+					concat('%',#{keyword},'%')
+				</if>
+				<if test="search!='all'">
+					${search} like concat('%',#{keyword},'%')
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<update id="update" parameterType="freeboard">
+		update freeboard set
+		ftitle=#{ftitle},
+		fcontents=#{fcontents}, fregdate=current_timestamp
+		where fbno=#{fbno}
+	</update>
+
+	<update id="delete" parameterType="integer">
+		update freeboard set fdel=true
+		where fbno=#{fbno}
+	</update>
+
+	<insert id="recInsert" parameterType="freeboardrec">
+		insert into
+		freeboardrec(frbno,frecid) values(#{frbno},#{frecid} )
+	</insert>
+	<delete id="recDelete" parameterType="freeboardrec">
+		delete from freeboardrec where frbno=#{frbno} and frecid=#{frecid}
+	</delete>
+	
+	<select id="recSelect" parameterType="freeboardrec" resultType="freeboardrec">
+		select * from freeboardrec where frbno=#{frbno} and frecid=#{frecid}
+	</select>
+	
+	<insert id="readCountInsert" parameterType="freeboardreadcount">
+		insert into freeboardreadcount(frbno,frcid) values (#{frbno} ,#{frcid})
+	</insert>
+	<select  id="readCountSelect" parameterType="freeboardreadcount" resultType="freeboardreadcount">
+		select * from freeboardreadcount where frbno=#{frbno} and frcid=#{frcid}
+	</select>
+	
+</mapper>

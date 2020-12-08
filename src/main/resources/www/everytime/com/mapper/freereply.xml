@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="freereplyns">
+<resultMap type="freereply" id="freereplyResult">
+	<result property="frrno" column="frrno"/>
+	<result property="frbno" column="frbno"/>
+	<result property="frnickname" column="frnickname"/>
+	<result property="frcontents" column="frcontents"/>
+	<result property="frregdate" column="frregdate"/>
+	<result property="frdel" column="frdel"/>
+</resultMap>
+<resultMap type="freereplyrec" id="freereplyrec">
+	<result property="frrcno" column="frrcno" />
+	<result property="frrpno" column="frrpno" />
+	<result property="frrcid" column="frrcid"/>
+</resultMap>
+
+<select id="list" parameterType="freereply" resultType="freereply">
+	select *,(select count(frrcno) from freereplyrec where frrpno = frrno) as frrecommendation 
+	from freereply where frbno=#{frbno} and frdel=false order by frrno
+</select>
+
+<insert id="insert" parameterType="freereply">
+	insert into freereply ( frbno, frnickname, frcontents ) values (#{frbno}, #{frnickname}, #{frcontents})
+</insert>
+
+<update id="delete" parameterType="integer">
+	update freereply set frdel=true where frrno=#{frrno} 
+</update>
+
+<!-- <update id="update" parameterType="freereply">
+	update freereply set set frcontents=#{frcontents}, fregdate=current_timestamp where frrno=#{frrno}
+</update>
+ -->
+<insert id="rRecInsert" parameterType="freereplyrec">
+	insert into freereplyrec(frrpno,frrcid) values(#{frrpno},#{frrcid})
+</insert>
+
+<delete id= "rRecDelete" parameterType="freereplyrec">
+	delete from freereplyrec where frrpno=#{frrpno} and frrcid=#{frrcid}
+</delete>
+
+<select id="rRecSelect" parameterType="freereplyrec" resultType="freereplyrec">
+	select * from freereplyrec where frrpno=#{frrpno} and frrcid=#{frrcid}
+</select>
+
+</mapper>

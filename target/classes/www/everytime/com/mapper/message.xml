@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="messagens">
+	<resultMap type="message" id="msgResult">
+		<result property="m_num" column= "m_num" />
+		<result property = "m_sender_nick" column = "m_sender_nick" />
+		<result property = "m_sender_del" column = "m_sender_del" />
+		<result property = "m_receiver_nick" column = "m_receiver_nick" />
+		<result property = "m_receiver_del" column = "m_receiver_del" />
+		<result property = "m_content" column = "m_content" />
+		<result property = "m_send_date" column = "m_send_date" />
+	</resultMap>
+
+	<insert id="insert" parameterType="message">
+		insert into message (m_sender_nick, m_receiver_nick, m_content) 
+		values( #{m_sender_nick}, #{m_receiver_nick}, #{m_content})
+	</insert>
+
+	<select id="sendlist" parameterType="message" resultType="message">
+		select * from message where m_sender_nick = #{m_receiver_nick} and m_sender_del = false
+	</select>
+	
+	<select id="reclist" parameterType="message" resultType="message">
+		select * from message where m_receiver_nick = #{m_receiver_nick} and m_receiver_del = false
+	</select>
+	
+	<select id="getTotal" parameterType="message" resultType="integer">
+		select count(*) from message where m_sender_nick = #{m_sender_nick}
+	</select>
+	
+	<select id="getTotal_r" parameterType="message" resultType="integer">
+		select count(*) from message where m_receiver_nick = #{m_receiver_nick}
+	</select>
+	
+	<update id="delete" parameterType="integer">
+		update message set m_sender_del=true where m_num=#{m_num}
+	</update>
+
+	<update id="delete2" parameterType="integer">
+		update message set m_receiver_del=true where m_num=#{m_num}
+	</update>
+</mapper>
+
+
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberns">
+<resultMap type="member" id="memberResult">
+	<result property="id" column="id"/>
+	<result property="password" column="password"/>
+	<result property="nickname" column="nickname"/>
+	<result property="email" column="email"/>
+	<result property="academyname" column="academyname"/>
+	<result property="del" column="del"/>
+</resultMap>
+
+<select id="select" parameterType="member" resultType="member">
+	select * from member where id=#{id}
+</select>
+
+<select id="insert" parameterType="member">
+	insert into member values (#{id}, #{password}, #{nickname}, #{email},
+	#{academyname}, default)
+</select>
+
+<update id="update" parameterType="member">
+	update member set email=#{email}, password=#{password},
+		academyname=#{academyname}
+		where id=#{id}
+</update>
+
+<update id="delete" parameterType="member">
+	update member set del=true where id=#{id}
+</update>
+</mapper>

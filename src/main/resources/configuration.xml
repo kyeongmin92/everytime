@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="Member" type="www.everytime.com.member.model.Member"/>
+		<typeAlias alias="FreeBoard" type="www.everytime.com.board.freeboard.model.FreeBoard"/>
+		<typeAlias alias="FreeReply" type="www.everytime.com.reply.freereply.model.FreeReply"/>
+		<typeAlias alias="FreeBoardRec" type="www.everytime.com.board.freeboard.model.FreeBoardRec"/>
+		<typeAlias alias="FreeBoardReadCount" type="www.everytime.com.board.freeboard.model.FreeBoardReadCount"/>
+		<typeAlias alias="FreeReplyRec" type="www.everytime.com.reply.freereply.model.FreeReplyRec" />
+		
+		<typeAlias alias="Book" type="www.everytime.com.books.model.Book" />
+		<typeAlias alias="BookSell" type="www.everytime.com.books.model.BookSell" />
+		
+		<typeAlias alias="Message" type="www.everytime.com.message.model.Message" />
+		
+		<typeAlias alias="PromotionBoard" type="www.everytime.com.board.promotionboard.model.PromotionBoard"/>
+		<typeAlias alias="PromotionReply" type="www.everytime.com.reply.promotionreply.model.PromotionReply"/>
+		<typeAlias alias="PromotionBoardRec" type="www.everytime.com.board.promotionboard.model.PromotionBoardRec"/>
+		<typeAlias alias="PromotionBoardReadCount" type="www.everytime.com.board.promotionboard.model.PromotionBoardReadCount"/>
+		<typeAlias alias="PromotionReplyRec" type="www.everytime.com.reply.promotionreply.model.PromotionReplyRec" />
+	</typeAliases>
+	<mappers>
+		<mapper	resource="www/everytime/com/mapper/member.xml" />
+		<mapper	resource="www/everytime/com/mapper/freeboard.xml" />
+		<mapper	resource="www/everytime/com/mapper/freereply.xml" />
+		<mapper	resource="www/everytime/com/mapper/book.xml" />
+		<mapper	resource="www/everytime/com/mapper/message.xml" />
+		<mapper	resource="www/everytime/com/mapper/promotionboard.xml" />
+		<mapper	resource="www/everytime/com/mapper/promotionreply.xml" />
+	</mappers>
+</configuration>
