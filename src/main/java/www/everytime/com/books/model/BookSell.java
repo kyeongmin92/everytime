@@ -10,6 +10,7 @@ import lombok.Data;
 public class BookSell {
 	private int listnum; // 번호 FK
 	private int sellnum; // 번호 PK
+	private String bnickname; // 멤버 닉네임
 	private String sellprice; // 판매가
 	private String contents; // 내용
 	private Date regdate; // 날짜

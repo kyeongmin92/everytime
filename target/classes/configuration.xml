@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		
 		<typeAlias alias="Book" type="www.everytime.com.books.model.Book" />
 		<typeAlias alias="BookSell" type="www.everytime.com.books.model.BookSell" />
+		<typeAlias alias="Books" type="www.everytime.com.books.model.Books" />
 		
 		<typeAlias alias="Message" type="www.everytime.com.message.model.Message" />
 		

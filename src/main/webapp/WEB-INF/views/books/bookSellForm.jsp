@@ -241,7 +241,7 @@ function showTextFile() {
 		<c:forEach var="booklist" items="${booklist}">
 			<p><input type="text" name="listnum" value="${booklist.listnum }" /></p>
 		</c:forEach>	
-			<p>닉네임 : ${member.nickname }</p>
+			<p><input type="text" name="bnickname" value="${member.nickname }" /></p>
 			<p>
 				추가설명을 적어주세요<br />
 				<textarea name="contents" rows="" cols="" placeholder="(500자 이내)"
@@ -295,7 +295,7 @@ function showTextFile() {
 					<div class="body">
 
 						<div id="attach">
-							<label class="waves-effect waves-teal btn-flat" id="show_uuid"
+							<label class="waves-effect waves-teal btn-flat" 
 								for="uploadInputBox">사진첨부</label> <input id="uploadInputBox"
 								style="display: none" type="file" name="file" multiple />
 

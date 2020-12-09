@@ -57,7 +57,7 @@
 																	+ "출판사 : <input readonly id='publisher' name='publisher' value='"+array[i].publisher+"'/><br/>"
 																	+ "가격 : <input readonly id='price' name='price' value='"+array[i].price+"'/><br/>"
 																	+ "옮긴이 : <input readonly id='translators' name='translators' value='"+array[i].translators+"'/><br/>"
-																	+ "출판일 : <input readonly id='datetime' name='datetime' value='"+array[i].datetime+"'/><br/>"																			
+																	+ "출판일 : <input readonly id='datetime' name='publishdate' value='"+(array[i].datetime).substring(0,10)+"'/><br/>"																			
 																	+ "<input type='hidden' id='thumbnail' name='thumbnail' value='"+array[i].thumbnail+"'></input><br/>"
 																	+ "<img src='"+array[i].thumbnail+"'/>"
 																	+ "<input type='submit' value='선택'/><br/></form>");
@@ -73,7 +73,7 @@
 																	+ "출판사 : <input readonly id='publisher' name='publisher' value='"+array[i].publisher+"'/><br/>"
 																	+ "가격 : <input readonly id='price' name='price' value='"+array[i].price+"'/><br/>"
 																	+ "옮긴이 : <input readonly id='translators' name='translators' value='"+array[i].translators+"'/><br/>"
-																	+ "출판일 : <input readonly id='datetime' name='datetime' value='"+array[i].datetime+"'/><br/>"																			
+																	+ "출판일 : <input readonly id='datetime' name='publishdate' value='"+(array[i].datetime).substring(0,10)+"'/><br/>"																			
 																	+ "<input type='hidden' id='thumbnail' name='thumbnail' value='"+array[i].thumbnail+"'></input><br/>"
 																	+ "<img src='"+array[i].thumbnail+"'/>"
 																	+ "<input type='submit' value='선택'/><br/></form>");

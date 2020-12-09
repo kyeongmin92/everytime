@@ -20,32 +20,7 @@
 	src="../resources/js/assets/underscore-min.js"></script>
 <script type="text/javascript" src="../resources/js/assets/common.js"></script>
 <script type="text/javascript" src="../resources/js/assets/index.js"></script>
-    <script>
-        $(function () {
-            $("#search").click(function () {
-                $.ajax({
-                    method: "GET",
-                    url: "https://dapi.kakao.com/v3/search/book?target=title&size=20", // 전송 주소
-                    data: { query: $("#bookName").val() }, // 보낼 데이터
-                    headers: { Authorization: "KakaoAK 293654733c566c2df57a50fda13d9eaa" }
-                })
-                    .done(function (msg) { // 응답이 오면 처리를 하는 코드
-                    	console.log(msg);
-                    	for(var i = 0; i < 20; i++){
-                    		$("p").append("<strong>" + msg.documents[i].isbn + "</strong>");
-                    		$("p").append("<strong>" + msg.documents[i].title + "</strong>");
-                    		$("p").append("<strong>" + msg.documents[i].authors + "</strong>");
-                    		$("p").append("<strong>" + msg.documents[i].publisher + "</strong>");
-                    		$("p").append("<strong>" + msg.documents[i].price + "</strong>");
-                    		let date = data.datetime.split('T')[i];
-                    		$("p").append("<strong>" + msg.documents[i].date + "</strong>");
-                    		$("p").append("<strong>" + msg.documents[i].translators + "</strong>");
-    	                    $("p").append("<img src='" + msg.documents[i].thumbnail + "'>");
-                    	}
-                    });
-            })
-        });
-    </script>
+   
 </head>
 <body>
 	<header>
@@ -58,20 +33,20 @@
 				<input id="bookName" type="text" name="keyword" placeholder="구매할 책을 검색하세요!"
 					autocomplete="off"/>
 				<div class="searchbutton">
-					<span class="icons search-darkgray-16"></span>
+					<button>검색<span class="icons search-darkgray-16"></span></button>
 				</div>
 			</form>
 		</div>
 	</header>
 	<div id="items">
 		<div class="header">
-		<button id="search">검색</button>
+		
 		<p></p>
 		</div>
 	</div>
-	<div id="loading">
+<!-- 	<div id="loading">
 		<img src="../resources/images/assets/loading.svg">
-	</div>
+	</div> -->
 	<div id="bar">
 		<nav>
 			<a href="/" class="home"><span class="icons home-darkgray-16"></span><span
@@ -83,6 +58,41 @@
 
 		</nav>
 	</div>
+	
+	
+			
+<c:forEach var="booklist" items="${booklist }">
+<div class="container">				
+<p>책 제목 :${booklist.title}</p>
+<p>저자 : ${booklist.authors}</p>
+<p>출판일 : ${booklist.publistdate}</p>
+<p>가격 : ${booklist.price} , ${booklist.sellprice}</p>
+<p>내용 : ${booklist.contents}</p>
+
+<h2>쪽지쓰기 message</h2>
+
+<h2>label 책상태</h2>
+<p>밑줄 : ${booklist.underline}</p>
+<p>필기 : ${booklist.writing}</p>
+<p>커버 : ${booklist.cover}</p>
+<p>이름기입 : ${booklist.nameentry}</p>
+<p>페이지 변색 : ${booklist.pagecolor}</p>
+<p>페이지 훼손 : ${booklist.pagestate}</p>
+<img src="${booklist.imgfile1}" style="height:189px; width:266px"/>
+<img src="${booklist.imgfile2}" style="height:189px; width:266px"/>
+<img src="${booklist.imgfile3}" style="height:189px; width:266px"/>
+
+<h2>label 거래수단</h2>
+<p>택배 : ${booklist.delivery}</p>
+<p>직거래 : ${booklist.directdeal}</p>
+<p>장소 : ${booklist.location}</p>
+<hr />
+</div>
+	</c:forEach>	
+	
+
+
+	
 	<div id="bottom">
 		<ul class="links">
 			<li class="copyright"><a href="#">에브리타임</a></li>
@@ -92,22 +102,6 @@
 		</ul>
 
 	</div>
-
-	<script type="text/javascript">
-		(function(i, s, o, g, r, a, m) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function() {
-				(i[r].q = i[r].q || []).push(arguments)
-			}, i[r].l = 1 * new Date();
-			a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m)
-		})(window, document, 'script',
-				'https://www.google-analytics.com/analytics.js', 'ga');
-		ga('create', 'UA-82918907-1', 'auto');
-		ga('send', 'pageview');
-	</script>
 </body>
 </html>
 

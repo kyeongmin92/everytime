@@ -3,6 +3,7 @@ package www.everytime.com.books.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import www.everytime.com.books.dao.BookDao;
 import www.everytime.com.books.model.Book;
 import www.everytime.com.books.model.BookSell;
+import www.everytime.com.books.model.Books;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -22,9 +24,9 @@ public class BookServiceImpl implements BookService{
 		
 	}
 	
-	public List<Book> selectList(Book book) {
- 		return bd.selectList(book);
- 	}
+	public List<Book> selectBookList(Book book) {
+		return bd.selectBookList(book);
+	}
 
 	public void listinsert(BookSell booksell) {
 		bd.listinsert(booksell);
@@ -41,6 +43,18 @@ public class BookServiceImpl implements BookService{
 
 	public BookSell select(int listnum) {
 		return bd.select(listnum);
+	}
+
+	public List<BookSell> selectBookSellList(BookSell booksell) {
+		return bd.selectBookSellList(booksell);
+	}
+
+	public List<Books> selectBookSellList(Books books) {
+		return bd.selectBookSellList(books);
+	}
+
+	public List<Map<Book, BookSell>> selectBookSellList() {
+		return bd.selectBookSellList();
 	}
 
 

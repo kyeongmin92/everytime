@@ -6,10 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<<style>
+#startrunning{
+	visibility: hidden;
+}
+</style>
 </head>
-<body>
-<form action="/books/imageNameUpdate">
-		<p><input type="text" name="listnum" value="${book.listnum}" /></p>
+<body onload="submit()">
+<script type="text/javascript">
+    function submit()
+    {
+        document.getElementById("startrunning").click(); // Simulates button click
+        document.submitForm.submit(); // Submits the form without the button
+    }
+</script>
+
+<form action="/books/imageNameUpdate" id="submitForm" method="get">
+		<p><input type="hidden" name="listnum" value="${book.listnum}" /></p>
 		<!-- 로컬에 저장된 이미지 이름 -->	
 		<!-- 1. '/'로 잘라낸 값을 keywordArr에 저장한다. --> 
 		<c:set var="keywordArr" value="${fn:split(book.images,',')}"></c:set>
@@ -17,11 +30,10 @@
 		<c:forEach var="word" items="${keywordArr}" varStatus="status" end="3">
 		<!-- 키워드1 키워드2 키워드3 키워드4 가 출력된다. -->
 		
-    	<p><input type="text" name="imgfile${status.index +1 }" value="${word}" /></p>  
+    	<p><input type="hidden" name="imgfile${status.index +1 }" value="${word}" /></p>  
     	
 		</c:forEach>
-		<input type="submit" value="ok">
-		
+		<button id="startrunning">go</button>		
 </form>		
 
 </body>

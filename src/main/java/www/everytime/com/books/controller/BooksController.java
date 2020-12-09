@@ -1,52 +1,62 @@
 package www.everytime.com.books.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import www.everytime.com.books.dao.BookDao;
 import www.everytime.com.books.model.Book;
 import www.everytime.com.books.model.BookSell;
+import www.everytime.com.books.model.Books;
 import www.everytime.com.books.service.BookService;
 import www.everytime.com.member.model.Member;
 import www.everytime.com.member.service.MemberService;
+import www.everytime.com.message.service.MessageService;
 
 @Controller
 @RequestMapping("/books/*")
 public class BooksController {
-
-	private static final int RESULT_EXCEED_SIZE = -2;
-	private static final int RESULT_UNACCEPTED_EXTENSION = -1;
-	private static final int RESULT_SUCCESS = 1;
-	private static final long LIMIT_SIZE = 10 * 1024 * 1024;
-
+	
 	@Autowired
 	private BookService bs;
 
 	@Autowired
 	private MemberService ms;
+	
+	@Autowired
+	private MessageService msg;
+	
+	@Autowired
+	private BookDao dao;
+	
 
 	@RequestMapping("/books")
-	public String books() {
+	public String books(Model model) {
+		
+//		List<BookSell> booklist = bs.selectBookSellList(booksell);
+//		List<Books> booklist = bs.selectBookSellList(books);
+//		dao = session.getMapper(dao.getClass());
+		List<Map<Book, BookSell>> booklist = bs.selectBookSellList();
+		model.addAttribute("booklist", booklist);
+	
+		
+		
 		return "/books/books";
 	}
 
@@ -65,8 +75,8 @@ public class BooksController {
 		Member member = ms.select(id);
 		model.addAttribute("member", member);
 
-		// 데이터 가져오기
-		List<Book> booklist = bs.selectList(book);
+		// 선택한 데이터 가져오기
+		List<Book> booklist = bs.selectBookList(book);
 		
 		model.addAttribute("booklist", booklist);
 
@@ -79,7 +89,7 @@ public class BooksController {
 		bs.listinsert(booksell);
 		
 		//String uploadPath = request.getSession().getServletContext().getRealPath("/"); 
-		String uploadPath = "c:\\sh/";
+		String uploadPath = "/sh/";
 		String fileOriginName = ""; 
 		String fileMultiName = ""; 
 		for(int i=0; i<file.length; i++) { 
@@ -109,11 +119,10 @@ public class BooksController {
 		
 		} 
 		
-		System.out.println("*"+fileMultiName); 
-		
+		System.out.println("*"+fileMultiName); 		
 		
 		return "/books/upload"; 
-		}
+	}
 	
 	@RequestMapping("/imageNameUpdate")
 	public String imageNameUpdate(BookSell booksell,Model model) {

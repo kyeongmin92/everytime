@@ -8,22 +8,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-update page
 <c:if test="${result > 0 }">
 	<script type="text/javascript">
-		alert("수정 성공 ㅋㅋ");
 		
+		location.href="/books/books";
 	</script>
 </c:if>
 <c:if test="${result == 0 }">
 	<script type="text/javascript">
-		alert("수정 실패  ! 에궁");
+		alert("이미지 업로드 실패"); //에러 페이지 만들기
 		history.go(-1);
 	</script>
 </c:if>
-<p>${booksell.imgfile1 }</p>
-<p>${booksell.imgfile2 }</p>
-<p>${booksell.imgfile3 }</p>
-<p>${booksell.listnum}</p>
 </body>
 </html>
